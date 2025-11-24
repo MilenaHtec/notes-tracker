@@ -62,8 +62,15 @@ function NoteForm({ note, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
       {error && (
-        <div className="p-3 bg-red-900/20 border border-red-600 rounded-md text-red-400 text-sm">
-          {error}
+        <div
+          className="p-3 bg-red-900/20 border border-red-600 rounded-md text-red-400 text-sm animate-fade-in"
+          role="alert"
+          aria-live="assertive"
+        >
+          <div className="flex items-start">
+            <span className="mr-2">⚠️</span>
+            <span>{error}</span>
+          </div>
         </div>
       )}
 

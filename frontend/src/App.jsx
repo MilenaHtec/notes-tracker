@@ -18,12 +18,15 @@ function App() {
   return (
     <div className="flex flex-col h-screen bg-gray-900">
       <Header />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden flex-col md:flex-row">
         <Sidebar
           selectedNoteId={selectedNoteId}
           onSelectNote={setSelectedNoteId}
         />
-        <main className="flex-1 bg-gray-900 p-6 overflow-y-auto">
+        <main
+          className="flex-1 bg-gray-900 p-4 md:p-6 overflow-y-auto transition-all duration-200"
+          role="main"
+        >
           <HomePage
             selectedNoteId={selectedNoteId}
             onNoteSaved={handleNoteSaved}

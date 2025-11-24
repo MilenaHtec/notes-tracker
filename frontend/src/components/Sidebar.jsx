@@ -30,9 +30,16 @@ function Sidebar({ selectedNoteId, onSelectNote }) {
 
   if (isLoading) {
     return (
-      <aside className="w-64 bg-gray-850 flex flex-col overflow-y-auto border-r border-gray-700 p-4">
+      <aside
+        className="w-full md:w-64 bg-gray-850 flex flex-col overflow-y-auto border-r border-gray-700 p-4 transition-all duration-200"
+        aria-label="Notes sidebar"
+        role="complementary"
+      >
         <div className="flex items-center justify-center h-full">
-          <p className="text-gray-400 text-sm">Loading notes...</p>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-400"></div>
+            <p className="text-gray-400 text-sm">Loading notes...</p>
+          </div>
         </div>
       </aside>
     );
@@ -40,29 +47,45 @@ function Sidebar({ selectedNoteId, onSelectNote }) {
 
   if (error) {
     return (
-      <aside className="w-64 bg-gray-850 flex flex-col overflow-y-auto border-r border-gray-700 p-4">
-        <p className="text-red-400 text-sm">Error loading notes: {error}</p>
+      <aside
+        className="w-full md:w-64 bg-gray-850 flex flex-col overflow-y-auto border-r border-gray-700 p-4 transition-all duration-200"
+        aria-label="Notes sidebar"
+        role="complementary"
+      >
+        <div className="p-4 bg-red-900/20 border border-red-600 rounded-md">
+          <p className="text-red-400 text-sm font-medium">Error loading notes</p>
+          <p className="text-red-500 text-xs mt-1">{error}</p>
+        </div>
       </aside>
     );
   }
 
   return (
-    <aside className="w-64 bg-gray-850 flex flex-col overflow-y-auto border-r border-gray-700 p-4">
+    <aside
+      className="w-full md:w-64 bg-gray-850 flex flex-col overflow-y-auto border-r border-gray-700 p-4 transition-all duration-200"
+      aria-label="Notes sidebar"
+      role="complementary"
+    >
       {notes.length === 0 ? (
         <div className="p-4 text-center text-gray-400">
-          <p className="text-sm">No notes yet</p>
-          <p className="text-xs mt-1">Create your first note to get started</p>
+          <p className="text-sm font-medium">No notes yet</p>
+          <p className="text-xs mt-1 text-gray-500">
+            Create your first note to get started
+          </p>
         </div>
       ) : (
-        notes.map((note) => (
-          <NoteCard
-            key={note.id}
-            note={note}
-            isSelected={note.id === selectedNoteId}
-            onClick={() => onSelectNote(note.id)}
-            onDelete={handleDelete}
-          />
-        ))
+        <ul className="space-y-2" role="list">
+          {notes.map((note) => (
+            <li key={note.id} role="listitem">
+              <NoteCard
+                note={note}
+                isSelected={note.id === selectedNoteId}
+                onClick={() => onSelectNote(note.id)}
+                onDelete={handleDelete}
+              />
+            </li>
+          ))}
+        </ul>
       )}
     </aside>
   );

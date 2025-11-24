@@ -69,8 +69,15 @@ function HomePage({ selectedNoteId, onNoteSaved }) {
   // Show loading state while fetching note
   if (isLoadingNote && selectedNoteId) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-gray-400">
-        <p className="text-lg">Loading note...</p>
+      <div
+        className="flex flex-col items-center justify-center h-full text-gray-400"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="flex flex-col items-center space-y-3">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-400"></div>
+          <p className="text-lg">Loading note...</p>
+        </div>
       </div>
     );
   }
@@ -78,17 +85,22 @@ function HomePage({ selectedNoteId, onNoteSaved }) {
   // Show empty state when no note selected and not creating
   if (!selectedNote && !isCreating) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-gray-400">
-        <p className="text-lg mb-2">No note selected</p>
-        <p className="text-sm mb-4">
-          Select a note from the sidebar or create a new one
-        </p>
-        <button
-          onClick={handleCreateNew}
-          className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-colors"
-        >
-          Create New Note
-        </button>
+      <div className="flex flex-col items-center justify-center h-full text-gray-400 px-4">
+        <div className="text-center max-w-md">
+          <p className="text-xl font-medium mb-2 text-gray-300">
+            No note selected
+          </p>
+          <p className="text-sm mb-6 text-gray-500">
+            Select a note from the sidebar or create a new one to get started
+          </p>
+          <button
+            onClick={handleCreateNew}
+            className="px-6 py-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+            aria-label="Create a new note"
+          >
+            Create New Note
+          </button>
+        </div>
       </div>
     );
   }

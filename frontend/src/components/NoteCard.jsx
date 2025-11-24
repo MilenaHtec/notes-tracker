@@ -9,12 +9,22 @@ import { formatDate } from "../utils/formatters.js";
 function NoteCard({ note, isSelected, onClick, onDelete }) {
   return (
     <div
-      className={`rounded-lg p-4 mb-2 cursor-pointer transition-colors ${
+      className={`rounded-lg p-4 cursor-pointer transition-all duration-200 ${
         isSelected
-          ? "bg-indigo-500 text-white"
-          : "bg-gray-700 hover:bg-gray-600"
+          ? "bg-indigo-500 text-white shadow-lg transform scale-[1.02]"
+          : "bg-gray-700 hover:bg-gray-600 hover:shadow-md"
       }`}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`Note: ${note.title}`}
+      aria-pressed={isSelected}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       <div className="flex justify-between items-start">
         <div className="flex-1">
