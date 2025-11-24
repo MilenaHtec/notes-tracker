@@ -46,15 +46,13 @@ function HomePage({ selectedNoteId, onNoteSaved }) {
   const handleSave = (savedNote) => {
     // Refresh notes list to show updated/new note
     refreshNotes();
-    // If creating new note, notify parent to select it
+    // Notify parent - this will refresh sidebar and return to empty state
+    if (onNoteSaved) {
+      onNoteSaved(savedNote);
+    }
+    // Reset creating state if we were creating
     if (isCreating) {
       setIsCreating(false);
-      if (onNoteSaved) {
-        onNoteSaved(savedNote);
-      }
-    } else {
-      // Update selected note with saved data
-      setSelectedNote(savedNote);
     }
   };
 

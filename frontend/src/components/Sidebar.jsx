@@ -7,9 +7,17 @@
 import { useNotes } from "../hooks/useNotes.js";
 import NoteCard from "./NoteCard.jsx";
 import { deleteNote } from "../services/notes-api.js";
+import { useEffect } from "react";
 
-function Sidebar({ selectedNoteId, onSelectNote }) {
+function Sidebar({ selectedNoteId, onSelectNote, onRefreshReady }) {
   const { notes, isLoading, error, refreshNotes } = useNotes();
+
+  // Expose refreshNotes to parent component
+  useEffect(() => {
+    if (onRefreshReady) {
+      onRefreshReady(refreshNotes);
+    }
+  }, [refreshNotes, onRefreshReady]);
 
   const handleDelete = async (noteId) => {
     if (!window.confirm("Are you sure you want to delete this note?")) {
