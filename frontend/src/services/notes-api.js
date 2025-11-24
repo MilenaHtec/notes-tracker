@@ -87,6 +87,32 @@ export async function updateNote(id, updates) {
 }
 
 /**
+ * Gets a note by ID
+ * 
+ * @param {string} id - Note ID
+ * @returns {Promise<Object>} Note object
+ * @throws {Error} If request fails
+ */
+export async function getNoteById(id) {
+  const response = await fetch(`${API_BASE_URL}/notes/${id}`);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      const error = await response
+        .json()
+        .catch(() => ({ error: "Note not found" }));
+      throw new Error(error.error || "Note not found");
+    }
+    const error = await response
+      .json()
+      .catch(() => ({ error: "Failed to fetch note" }));
+    throw new Error(error.error || `HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+/**
  * Deletes a note
  * 
  * @param {string} id - Note ID

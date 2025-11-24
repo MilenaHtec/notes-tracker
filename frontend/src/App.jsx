@@ -10,6 +10,11 @@ import HomePage from "./pages/HomePage";
 function App() {
   const [selectedNoteId, setSelectedNoteId] = useState(null);
 
+  const handleNoteSaved = (note) => {
+    // After saving, select the saved note
+    setSelectedNoteId(note.id);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-900">
       <Header />
@@ -19,7 +24,10 @@ function App() {
           onSelectNote={setSelectedNoteId}
         />
         <main className="flex-1 bg-gray-900 p-6 overflow-y-auto">
-          <HomePage selectedNoteId={selectedNoteId} />
+          <HomePage
+            selectedNoteId={selectedNoteId}
+            onNoteSaved={handleNoteSaved}
+          />
         </main>
       </div>
     </div>

@@ -8,6 +8,7 @@
 import express from "express";
 import {
   getAllNotes,
+  getNoteById,
   createNote,
   updateNote,
   deleteNote,
@@ -23,6 +24,20 @@ router.get("/", async (req, res, next) => {
   try {
     const notes = getAllNotes();
     res.status(200).json(notes);
+  } catch (error) {
+    next(error); // Pass to error middleware
+  }
+});
+
+/**
+ * GET /notes/:id
+ * Fetch a single note by ID
+ */
+router.get("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const note = getNoteById(id);
+    res.status(200).json(note);
   } catch (error) {
     next(error); // Pass to error middleware
   }
