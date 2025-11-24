@@ -102,10 +102,13 @@ describe("NoteForm", () => {
     const { container } = render(<NoteForm onSave={mockOnSave} />);
 
     await user.type(screen.getByPlaceholderText("Note content..."), "Content");
-    
+
     // Get form and submit directly to bypass HTML5 validation
     const form = container.querySelector("form");
-    const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+    const submitEvent = new Event("submit", {
+      bubbles: true,
+      cancelable: true,
+    });
     form.dispatchEvent(submitEvent);
 
     await waitFor(
@@ -126,10 +129,13 @@ describe("NoteForm", () => {
     // Clear content field
     const contentField = screen.getByPlaceholderText("Note content...");
     await user.clear(contentField);
-    
+
     // Get form and submit directly to bypass HTML5 validation
     const form = container.querySelector("form");
-    const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+    const submitEvent = new Event("submit", {
+      bubbles: true,
+      cancelable: true,
+    });
     form.dispatchEvent(submitEvent);
 
     await waitFor(
