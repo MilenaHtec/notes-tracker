@@ -5,7 +5,9 @@
 import express from "express";
 import cors from "cors";
 import { config } from "./config/config.js";
+import notesRouter from "./routes/notes.js";
 import { errorMiddleware } from "./middleware/error-middleware.js";
+import { loggerService, LogAction } from "./services/logger-service.js";
 
 const app = express();
 
@@ -13,13 +15,22 @@ const app = express();
 app.use(cors()); // Enable CORS for frontend
 app.use(express.json()); // Parse JSON request bodies
 
+// Log app start
+loggerService.add({
+  action: LogAction.APP_STARTED,
+  details: {
+    port: config.port,
+    environment: config.nodeEnv,
+  },
+});
+
+// Routes
+app.use("/notes", notesRouter);
+
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
-
-// Routes will be added here
-// app.use("/notes", notesRouter);
 
 // 404 handler (must be before error middleware)
 app.use((req, res) => {
